@@ -158,7 +158,10 @@ public class AbilitySystem : MonoBehaviour
     private void LateUpdate()
     {
         // Sends attribute updated notifiers for attributes that have been changed this frame.
-        _attributeSetInstance.FlushDirtyAttributes();
+        if (_attributeSetInstance != null)
+        {
+            _attributeSetInstance.FlushDirtyAttributes();
+        }
     }
 
     public void InitializeAbilitySystem(GameObject newOwner, GameObject newAvatar)
@@ -213,7 +216,7 @@ public class AbilitySystem : MonoBehaviour
         newSpec.ability.spec = newSpec;
         newSpec.abilityTemplate = abilityToGrant.ability;
         newSpec.removalPolicy = abilityToGrant.removalPolicy;
-
+        newSpec.ability.InitializeAbility();
         _ownedAbilities.Add(newSpec);
 
         if (abilityToGrant.inputActionBinding.Length > 0)
@@ -229,8 +232,6 @@ public class AbilitySystem : MonoBehaviour
                 currentBoundAbilities.Add(newSpec);
             }
         }
-
-        abilityToGrant.ability.InitializeAbility();
 
         return true;
     }
@@ -342,12 +343,12 @@ public class AbilitySystem : MonoBehaviour
     {
         spec.ability.onAbilityEnded = NotifyAbilityEnded;
         _dynamicOwnedTags.AddTags(spec.abilityTemplate.activationOwnedTags);
-        
+
         if (onAbilityActivated != null)
         {
             onAbilityActivated(spec.ability);
         }
-        
+
         spec.ability.ActivateAbility(payload);
     }
 
