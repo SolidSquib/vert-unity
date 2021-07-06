@@ -193,5 +193,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         _jumpTargetVelocity = Vector3.zero;
+        GetComponentInChildren<Animator>().SetFloat("HorizontalMovement", inputVector.x);
     }
 }

@@ -32,6 +32,7 @@ public class SMovement_Walk : SPlayerMovementState
 
     public override void UpdateState(PlayerMovement playerMovement, Vector3 inputVector)
     {
+        Debug.Log("SMovement_Walk inputVector: " + inputVector);
         CharacterController controller = GetCharacterController(playerMovement);
         AbilitySystem abilitySystem = playerMovement.GetComponent<AbilitySystem>();
         float moveSpeedModifier = moveSpeedAttribute != null ? abilitySystem.GetAttributeCurrentValue(moveSpeedAttribute) : 1.0f;

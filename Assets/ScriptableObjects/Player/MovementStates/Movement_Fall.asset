@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44b647850279ff44fb17de009955f62e, type: 3}
   m_Name: Movement_Fall
   m_EditorClassIdentifier: 
-  _baseMoveSpeed: 10
+  _baseMoveSpeed: 5
   moveSpeedAttribute: {fileID: 0}
-  _fallingGravityScale: 1
-  _jumpingGravityScale: 1
+  _fallingGravityScale: 2.5
+  _jumpingGravityScale: 1.5
   _landedState: {fileID: 11400000, guid: 93f48955513921f4daae3eef65366843, type: 2}
   _groundCheckPreventionTime: 0.5

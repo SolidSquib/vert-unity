@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Player Movement/Jump Behaviour/Defaults/Basic")]
+[CreateAssetMenu(menuName = "Player Movement/Jump Behaviour/Defaults/BasicJump")]
 public class SBasicPlayerJump : SPlayerJumpBehaviour
 {
     protected override bool ExecuteJump_Internal(PlayerMovement playerMovement, out Vector3 jumpTargetVelocity)
