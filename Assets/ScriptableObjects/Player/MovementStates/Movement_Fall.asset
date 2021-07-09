@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseMoveSpeed: 5
   moveSpeedAttribute: {fileID: 0}
-  _fallingGravityScale: 2.5
-  _jumpingGravityScale: 1.5
+  _fallingGravityScale: 3
+  _jumpingGravityScale: 2
   _landedState: {fileID: 11400000, guid: 93f48955513921f4daae3eef65366843, type: 2}
   _groundCheckPreventionTime: 0.5

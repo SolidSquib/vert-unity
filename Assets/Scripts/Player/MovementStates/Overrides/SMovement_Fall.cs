@@ -38,6 +38,9 @@ public class SMovement_Fall : SPlayerMovementState
 
         Animator animator = playerMovement.GetComponentInChildren<Animator>();
         animator.SetBool("isFalling", true);
+
+        //if (playerMovement.inputVector.y > 0) 
+            animator.SetTrigger("StartFallingTrigger");
     }
 
     public override void UpdateState(PlayerMovement playerMovement, Vector3 inputVector)
@@ -59,6 +62,7 @@ public class SMovement_Fall : SPlayerMovementState
         // Apply gravity
         bool isFalling = !jumpFrame && controller.velocity.y <= 0;
         movementVector.y += (Physics.gravity.y * (isFalling ? fallGravityScale : jumpGravityScale) * Time.deltaTime);
+        playerMovement.GetComponentInChildren<Animator>().SetFloat("VerticalMovement", movementVector.y);
 
         controller.Move(movementVector * Time.deltaTime);
     }

@@ -34,10 +34,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private SPlayerMovementState _defaultMovementState;
     [SerializeField] private SPlayerJumpBehaviour _jumpBehaviour;
     [SerializeField] private SPlayerOrientationControl _playerOrientationOverride;
+
+    [Header("Dash Settings")]
+    [SerializeField] private int _maxDashes = 1;
     #endregion
 
     #region PropertyAccessors
     public int maxJumps { get { return _maxJumps; } set { _maxJumps = value; } }
+    public int maxDashes { get { return _maxDashes; } set { _maxDashes = value; } }
+
     public LayerMask groundMask { get { return _groundLayerMask; } }
     #endregion
 
@@ -51,11 +56,18 @@ public class PlayerMovement : MonoBehaviour
         return (maxJumps < 0 || currentNumJumps < maxJumps) && _jumpBehaviour != null && activeMovementState != null && activeMovementState.CanJump();
     }
 
+    public bool CanDash()
+    {
+        return false;// (maxJumps < 0 || currentNumJumps < maxDashes) && _jumpBehaviour != null && activeMovementState != null && activeMovementState.CanJump();
+    }
+
     public bool IsJumpingOrFalling()
     {
         return activeMovementState != null && activeMovementState.IsFallingState();
     }
 
+    // This sets the vector3 that is used by SMovement_Walk
+    // Jump functionality should be a task on the Jump Ability and it should check CanJump() before performing its functionality
     public bool Jump()
     {
         if (!CanJump())
@@ -87,6 +99,11 @@ public class PlayerMovement : MonoBehaviour
         {
             onLanded();
         }
+    }
+
+    public bool Dash()
+    {
+        return false;
     }
 
     private void NotifyStateChanged(SPlayerMovementState newState, SPlayerMovementState previousState)
@@ -192,7 +209,31 @@ public class PlayerMovement : MonoBehaviour
             _playerOrientationOverride.OrientPlayer(this);
         }
 
+        UpdateCharacterFacingDirection();
         _jumpTargetVelocity = Vector3.zero;
         GetComponentInChildren<Animator>().SetFloat("HorizontalMovement", inputVector.x);
+    }
+
+    // Rotate the child Character to face left or Right
+    [SerializeField] private Transform _characterTransform;
+    private Vector3 _rightDirection = new Vector3(0, 90, 0);
+    private Vector3 _leftDirection = new Vector3(0, 240, 0);
+    private bool _isFacingRight = false;
+
+    private void UpdateCharacterFacingDirection() 
+    {
+        if (_characterTransform)
+        {
+            if (inputVector.x < 0 && _isFacingRight)
+            {
+                _characterTransform.localRotation = Quaternion.Euler(_leftDirection);
+                _isFacingRight = false;
+            }
+            else if (inputVector.x > 0 && !_isFacingRight)
+            {
+                _characterTransform.localRotation = Quaternion.Euler(_rightDirection);
+                _isFacingRight = true;
+            }
+        }
     }
 }
